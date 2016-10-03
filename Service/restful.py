@@ -1,10 +1,15 @@
 from flask import Flask, jsonify
+from flask_pymongo import PyMongo
 
 app = Flask(__name__)
 
+app.config['MONGO_DBNAME'] = 'Sudoku'
+
+mongo = PyMongo(app)
+
 
 @app.route('/', methods=['GET'])
-def Home():
+def home():
     return jsonify({'message': 'Welcome!'})
 
 
