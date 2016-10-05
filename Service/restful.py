@@ -16,12 +16,15 @@ def home():
     return jsonify({'message': 'Welcome!'})
 
 
-@app.route('/grid/add/<num>', methods=['GET'])
+@app.route('/grid/create/<num>', methods=['GET'])
 def createMaps(num):
+    grids = mongo.db.grids
     newGrids = []
     for _ in range(int(num)):
-        newGrids.append(createGrid())
-    return jsonify({'maps': newGrids})
+        grid = createGrid()
+        grid_id = grids.insert({'grid': grid})
+        newGrids.append(grids.find_one({'_id': grid_id}))
+    return jsonify({'maps': grid})
 
 
 if __name__ == '__main__':
