@@ -2,7 +2,26 @@
 import random
 
 
+def levelGrid(grid, level):
+    """Return a random sudoku grid with a given number of elements on the grid.
+        The level parameter stand for the wanted number of elements in the map.
+        A 0 on the grid represent no-parameter.
+        """
+    newGrid = [[0] * 9 for _ in range(9)]
+    index = []
+    for _ in range(int(level)):
+        while True:
+            rawIndex = random.randint(0, 8)
+            columnIndex = random.randint(0, 8)
+            if (rawIndex, columnIndex) not in index:
+                index.append((rawIndex, columnIndex))
+                newGrid[rawIndex][columnIndex] = grid['grid'][rawIndex][columnIndex]
+                break
+    return newGrid
+
+
 def createGrid():
+    """Generate new sudoku grid, insert it into the DB and returned it."""
     newMap = [[0] * 9 for _ in range(9)]
     blocks = [[] * 9 for _ in range(9)]
     attemptPlacing(newMap, 0, 0, [], blocks)
@@ -10,6 +29,7 @@ def createGrid():
 
 
 def attemptPlacing(newMap, rawIndex, columnIndex, raw, blocks):
+    """Recursively checks each position on the 9x9 grid for possible numbers according to the sudoku rules."""
     if columnIndex > 9:
         return False
     pn = []  # pn - possible numbers
@@ -47,6 +67,7 @@ def attemptPlacing(newMap, rawIndex, columnIndex, raw, blocks):
 
 
 def blockIndex(raw, column):
+    """Return the block index of a given coordinate"""
     if raw < 3 and column < 3:
         return 0
     if raw < 3 and 2 < column < 6:
