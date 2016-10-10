@@ -1,2 +1,2 @@
 # Sudoku
-A web service for a sudoku game
+A web service for the sudoku game

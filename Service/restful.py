@@ -1,17 +1,20 @@
 #!/usr/bin/env python3
-from flask import Flask, jsonify
+from bson.json_util import dumps
+from bson.objectid import ObjectId
+from flask import Flask, jsonify, request
 from flask_pymongo import PyMongo
 
 from Service.grid import createGrid
 from Service.grid import levelGrid
 
+# Initialize the Flask application
 app = Flask(__name__)
-
 app.config['MONGO_DBNAME'] = 'Sudoku'
 
 mongo = PyMongo(app)
 
 
+# Define a route for the default URL
 @app.route('/', methods=['GET'])
 def home():
     return jsonify({'message': 'Welcome!'})
@@ -25,8 +28,8 @@ def createMaps(num):
     for _ in range(int(num)):
         grid = createGrid()
         grid_id = grids.insert({'grid': grid})
-        newGrids.append(grids.find_one({'_id': grid_id}))
-    return jsonify({'maps': grid})
+        newGrids.append(dumps(grids.find_one({'_id': grid_id}, projection={'_id': False})))
+    return jsonify({'maps': newGrids})
 
 
 @app.route('/game/start/<level>', methods=['GET'])
@@ -40,5 +43,20 @@ def getMap(level):
     return jsonify({'_id': str(grid['_id']), 'grid': levelGrid(grid, level)})
 
 
+@app.route('/game/check', methods=['POST'])
+def checkNumber():
+    """Checks if a given number match the number in a given coordinate in a given grid.
+    The request contain the _id of the grid.
+    The id is used for making the query to the DB.
+    the DB returned the wanted grid."""
+    grids = mongo.db.grids
+    content = request.get_json(force=True)
+    grid = grids.find_one({'_id': ObjectId(content['id'])})['grid']
+    if grid[content['row']][content['column']] == content['number']:
+        return jsonify({'success': True})
+    else:
+        return jsonify({'success': False})
+
+# Run the app.
 if __name__ == '__main__':
-    app.run(port=8080)
+    app.run(port=8080, debug=False)
