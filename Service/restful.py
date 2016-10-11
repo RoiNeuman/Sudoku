@@ -40,7 +40,7 @@ def getMap(level):
     """
     grids = mongo.db.grids
     grid = [d for d in grids.aggregate([{'$sample': {'size': 1}}])][0]
-    return jsonify({'_id': str(grid['_id']), 'grid': levelGrid(grid, level)})
+    return jsonify({'_id': str(grid['_id']), 'grid': levelGrid(grid['grid'], level)})
 
 
 @app.route('/game/check', methods=['POST'])

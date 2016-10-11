@@ -9,14 +9,15 @@ def levelGrid(grid, level):
         """
     newGrid = [[0] * 9 for _ in range(9)]
     index = []
+    for i in range(9):
+        for j in range(9):
+            index.append((i, j))
     for _ in range(int(level)):
-        while True:
-            rowIndex = random.randint(0, 8)
-            columnIndex = random.randint(0, 8)
-            if (rowIndex, columnIndex) not in index:
-                index.append((rowIndex, columnIndex))
-                newGrid[rowIndex][columnIndex] = grid['grid'][rowIndex][columnIndex]
-                break
+        ran = random.randint(0, len(index)-1)
+        rowIndex = index[ran][0]
+        columnIndex = index[ran][1]
+        newGrid[rowIndex][columnIndex] = grid[rowIndex][columnIndex]
+        index.remove(index[ran])
     return newGrid
 
 
