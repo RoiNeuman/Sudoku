@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sudoku</title>
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+</head>
+<body>
+<div class="container">
+    <div class="row" style="margin-top: 40px; text-align: center;">
+        <div class="col-md-4"></div>
+        <div class="col-md-4">
+            <div class="row">
+                <div class="col-xs-6">
+                    <button id="startGame" type="button" class="btn btn-primary">Start new game</button>
+                </div>
+                <div class="col-xs-6">
+                    <input id="level" type="number" title="Level" value="30" max="81" class="form-control" style="text-align: center;" autofocus/>
+                </div>
+            </div>
+            <div class="row">
+                <table id="grid" class="table table-bordered" style="margin-top: 40px; border-collapse: collapse; border: 2px solid black;"></table>
+                <div class="col-lg-1"></div>
+                <div class="col-lg-11">
+                    <div id="numbers" class="btn-group" style="display: none;">
+                        <button id="numBtn" type="button" class="btn btn-default">1</button>
+                        <button id="numBtn" type="button" class="btn btn-default">2</button>
+                        <button id="numBtn" type="button" class="btn btn-default">3</button>
+                        <button id="numBtn" type="button" class="btn btn-default">4</button>
+                        <button id="numBtn" type="button" class="btn btn-default">5</button>
+                        <button id="numBtn" type="button" class="btn btn-default">6</button>
+                        <button id="numBtn" type="button" class="btn btn-default">7</button>
+                        <button id="numBtn" type="button" class="btn btn-default">8</button>
+                        <button id="numBtn" type="button" class="btn btn-default">9</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4"></div>
+    </div>
+</div>
+
+<script type="text/javascript" src="/static/js/gameplay.js">
+</script>
+</body>
+</html>

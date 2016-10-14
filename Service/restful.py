@@ -1,7 +1,9 @@
 #!/usr/bin/env python3
+import os
+
 from bson.json_util import dumps
 from bson.objectid import ObjectId
-from flask import Flask, jsonify, request
+from flask import Flask, jsonify, request, send_from_directory
 from flask_pymongo import PyMongo
 
 from Service.grid import createGrid
@@ -14,10 +16,19 @@ app.config['MONGO_DBNAME'] = 'Sudoku'
 mongo = PyMongo(app)
 
 
-# Define a route for the default URL
+# Default URL
 @app.route('/', methods=['GET'])
-def home():
-    return jsonify({'message': 'Welcome!'})
+def default():
+    return app.send_static_file('pages/index.html')
+
+
+@app.route('/static/<path:path>')
+def clientContent(path):
+    """Serve static content (files of all kinds) from the 'static' folder.
+    The 'static' folder contain all the client's files."""
+    root_dir = os.path.dirname(os.getcwd())
+    print(root_dir)
+    return send_from_directory(os.path.join(root_dir, 'static'), path)
 
 
 @app.route('/grid/create/<num>', methods=['GET'])
@@ -52,7 +63,7 @@ def checkNumber():
     grids = mongo.db.grids
     content = request.get_json(force=True)
     grid = grids.find_one({'_id': ObjectId(content['id'])})['grid']
-    if grid[content['row']][content['column']] == content['number']:
+    if grid[int(content['row'])][int(content['column'])] == int(content['number']):
         return jsonify({'success': True})
     else:
         return jsonify({'success': False})
